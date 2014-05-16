@@ -22,8 +22,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements OnClickListener{
 
 	private static final int REQUEST_PATH = 1;
 	String curFileName;
@@ -74,31 +75,16 @@ public class MainActivity extends ActionBarActivity {
 		
 		//이벤트 연결
 		btnFileSearch1 = (Button)findViewById(R.id.btnFileSearch1);
-		btnFileSearch1.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-
-				getfile(v);
-				
-				//etFilePath.setText(curPath + "/" + curFileName);
-				etFilePath.setText(path);
-				
-				File file = new File(path);
-				tvMD5Result.setText(MD5.calculateMD5(file));
-			}
-		});
-		computeMD5Hash(etFilePath.toString());
-//		tvMD5Result.setText(hashMD5);
-		computeSHAHash(etFilePath.toString());
-		tvSHA1.setText(hashSHA);
+		btnFileSearch1.setOnClickListener(this);		
+		btnFileSearch2 = (Button)findViewById(R.id.btnFileSearch2);
+		btnFileSearch2.setOnClickListener(this);
 		
+		//파일 비교 활성화 (토글)
 		swCompare = (Switch)findViewById(R.id.swCompare);				
 		swCompare.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				// TODO Auto-generated method stub
 				if(isChecked!=false){
 					llComare.setVisibility(View.VISIBLE);
 				}else{
@@ -107,37 +93,23 @@ public class MainActivity extends ActionBarActivity {
 				
 			}
 		});
-		btnFileSearch2 = (Button)findViewById(R.id.btnFileSearch2);
-		btnFileSearch2.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				
-				getCompare(v);
-				
-				etFilePath2.setText(curPath + "/" + curFileName);
-			}
-		});
-				
-		computeSHAHash(etFilePath2.toString());
-		tvResult.setText(hashSHA);
-		
 		
 		//파일 비교 수행
 		
 	}
 	
+	//인텐트 호출
 	public void getfile(View v){ 
     	Intent intent1 = new Intent(this, FileChooser.class);
         startActivityForResult(intent1,REQUEST_PATH);
     }
 	
-	public void getCompare(View v){ 
+/*	public void getCompare(View v){ 
     	Intent intent2 = new Intent(this, FileChooser.class);
         startActivityForResult(intent2,REQUEST_PATH);
-    }
+    }*/
 
-	 // 결과 Listen
+	 //인텐트 결과 Listening
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         // See which child activity is calling us back.
     	if (requestCode == REQUEST_PATH){
@@ -146,6 +118,8 @@ public class MainActivity extends ActionBarActivity {
     			curPath = data.getStringExtra("GetPath");
             	
     			path = curPath + "/" + curFileName;
+    			
+    			Toast.makeText(this, path, Toast.LENGTH_SHORT);
     			//etFilePath.setText(curPath + "/" + curFileName);
     			//etFilePath.setText(curFileName);
     			
@@ -154,8 +128,40 @@ public class MainActivity extends ActionBarActivity {
     		}
     	 }
     }
-
+	
+    //이벤트 핸들러
+	@Override
+	public void onClick(View v) {
 		
+		
+		if(v.getId()==R.id.btnFileSearch1){
+			getfile(v);
+			
+			//etFilePath.setText(curPath + "/" + curFileName);
+			etFilePath.setText(path);
+			
+			/*File file = new File(path);
+			tvMD5Result.setText(MD5.calculateMD5(file));*/
+			
+			computeMD5Hash(etFilePath.toString());
+//			tvMD5Result.setText(hashMD5);
+			computeSHAHash(etFilePath.toString());
+			
+		}else if(v.getId()==R.id.btnFileSearch2){
+			getfile(v);
+			//getCompare(v);
+			
+			etFilePath2.setText(curPath + "/" + curFileName);
+			
+			computeSHAHash(etFilePath2.toString());
+			tvResult.setText(hashSHA);
+			tvSHA1.setText(hashSHA);
+		}
+	}
+	
+	
+	
+// String Hash 처리 =================================================================
 	private static String convertToHex(byte[] data) throws java.io.IOException 
 	{
 		StringBuffer sb = new StringBuffer();
@@ -222,3 +228,7 @@ public class MainActivity extends ActionBarActivity {
 		}
 	}
 }
+
+
+
+
