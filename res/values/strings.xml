@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">HashChecker</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+	<string name="btn_fileSearch">파일 선택</string>
+	<string name="tv_CRC3">CRC3</string>
+	<string name="tv_MD5">MD5</string>
+	<string name="tv_SHA1">SHA-1</string>
+	<string name="swt_fileCompare">파일 비교</string>
+	<string name="tv_file_transfer">파일 전달하기</string>
+	<string name="btn_Wifi">WiFi로 전달</string>
+	<string name="btn_Bludtooth">블루투스로 전달</string>
+	<string name="btn_NFC">NFC로 전달</string>
+	<string name="btn_SDCard">SDCard로 전달</string>
+	<string name="btn_QR">QR코드로 전달</string>
+	
+	
+</resources>
