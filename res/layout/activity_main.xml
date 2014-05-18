@@ -178,9 +178,9 @@
         <ImageView
             android:id="@+id/ivShare"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_gravity="right"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/share_icon" />
     </LinearLayout>
 
 </RelativeLayout>
