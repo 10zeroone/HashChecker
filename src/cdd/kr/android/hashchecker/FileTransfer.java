@@ -10,11 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class FileTransfer extends Activity implements OnClickListener{
-	Button btn_Wifi;
-	Button btn_Bludtooth;
-	Button btn_NFC;
 	Button btn_Email;
-	Button btn_QR;
 	
 	TextView tvState;
 	
@@ -60,16 +56,12 @@ public class FileTransfer extends Activity implements OnClickListener{
             	email.putExtra(Intent.EXTRA_STREAM, URI);
 			}
             
-            
             //prompts email client only
             email.setType("message/rfc822");
 
             startActivity(Intent.createChooser(email, "Choose an Email client :"));
 		}
 		
-		
 	}
-	
-	
 	
 }
