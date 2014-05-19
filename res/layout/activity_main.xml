@@ -14,7 +14,7 @@
         android:layout_marginLeft="10dp" >
 
         <EditText
-            android:id="@+id/etFilePath"
+            android:id="@+id/etFilePath1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1" >
@@ -30,7 +30,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/llo_CRC3"
+        android:id="@+id/llo_MD5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -38,38 +38,15 @@
         android:layout_marginLeft="10dp" >
 
         <TextView
-            android:id="@+id/tvCRC3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tv_CRC3" />
-
-        <TextView
-            android:id="@+id/tvCRC3Result"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="21dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/llo_MD5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/llo_CRC3"
-        android:layout_marginLeft="10dp" >
-
-        <TextView
-            android:id="@+id/tvMD5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tv_MD5" />
 
         <TextView
-            android:id="@+id/tvMD5Result"
+            android:id="@+id/tvMD5Result1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="21dp"
-            android:text="해시값 표시" />
+            android:layout_marginLeft="21dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -81,17 +58,15 @@
         android:layout_marginLeft="10dp" >
 
         <TextView
-            android:id="@+id/tvSHA1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tv_SHA1" />
 
         <TextView
-            android:id="@+id/tvSHA1Result"
+            android:id="@+id/tvSHA1Result1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="21dp"
-            android:text="해시값 표시" />
+            android:layout_marginLeft="21dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -108,7 +83,7 @@
             android:layout_height="wrap_content"
             android:text="@string/swt_fileCompare" />
     </LinearLayout>
-
+    
     <LinearLayout
         android:id="@+id/llComare"
         android:layout_width="match_parent"
@@ -117,15 +92,12 @@
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="18dp"
         android:orientation="vertical"
-        android:visibility="gone"
          >
 
         <LinearLayout
             android:id="@+id/llo_fileSearch2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
             android:layout_marginTop="18dp" >
 
             <EditText
@@ -139,53 +111,75 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:onClick="getfile"                
                 android:text="@string/btn_fileSearch" />
         </LinearLayout>
-
         <LinearLayout
-            android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_MD5" />
+
+        <TextView
+            android:id="@+id/tvMD5Result2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            >
-        
-            <TextView
-                android:id="@+id/tvCompAlgorithm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/tv_MD5" />
-
-            </LinearLayout>
-        
-        <LinearLayout
-            android:id="@+id/linearLayout2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            >
-
-            <ImageView
-                android:id="@+id/ivResult"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_launcher" />
-
-            <TextView
-                android:id="@+id/tvResult"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:text="TextView" />
-
-            <ImageView
-                android:id="@+id/ivResultWillDo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_launcher" />
-        </LinearLayout>
+            android:layout_marginLeft="21dp"  />
     </LinearLayout>
 
-    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_SHA1" />
+
+        <TextView
+            android:id="@+id/tvSHA1Result2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="21dp"
+            android:text="해시값 표시" />
+    </LinearLayout>
+      
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llCompResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/linearLayout3"
+        android:layout_marginTop="60dp" >
+
+        <ImageView
+            android:id="@+id/ivResult"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="left"
+            android:src="@drawable/compare_icon" />
+
+        <TextView
+            android:id="@+id/tvCompResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            
+            android:text="현재 비교한 결과 값이 업습니다." />
+
+        <ImageView
+            android:id="@+id/ivShare"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:src="@drawable/share_icon" />
+    </LinearLayout>
 
 </RelativeLayout>

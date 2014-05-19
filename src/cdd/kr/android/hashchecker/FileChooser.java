@@ -8,11 +8,11 @@ import java.util.Collections;
 import java.util.List;
 
 import android.app.ListActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class FileChooser extends ListActivity {
 
@@ -27,7 +27,7 @@ public class FileChooser extends ListActivity {
     private void fill(File f)
     {
     	File[]dirs = f.listFiles(); 
-		 this.setTitle("Current Dir: "+f.getName());
+		 this.setTitle("현재 폴더: "+f.getName());
 		 List<Item>dir = new ArrayList<Item>();
 		 List<Item>fls = new ArrayList<Item>();
 		 try{
@@ -86,7 +86,7 @@ public class FileChooser extends ListActivity {
 	}
     private void onFileClick(Item o)
     {
-    	//Toast.makeText(this, "Folder Clicked: "+ currentDir, Toast.LENGTH_SHORT).show();
+    	Toast.makeText(this, "Folder Clicked: "+ currentDir, Toast.LENGTH_SHORT).show();
     	Intent intent = new Intent();
         intent.putExtra("GetPath",currentDir.toString());
         intent.putExtra("GetFileName",o.getName());

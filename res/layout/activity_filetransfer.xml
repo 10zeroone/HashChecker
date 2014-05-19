@@ -51,7 +51,7 @@
         android:layout_marginTop="26dp"
         android:text="@string/btn_NFC" />
     <Button
-        android:id="@+id/btn_SDCard"
+        android:id="@+id/btn_Email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btn_NFC"
@@ -59,16 +59,24 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="26dp"
-        android:text="@string/btn_SDCard" />
+        android:text="@string/btn_Email" />
      <Button
         android:id="@+id/btn_QR"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_SDCard"
+        android:layout_below="@+id/btn_Email"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="26dp"
         android:text="@string/btn_QR" />
+
+     <TextView
+         android:id="@+id/tvState"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_alignParentBottom="true"
+         android:layout_alignParentLeft="true"
+         />
 
 </RelativeLayout>

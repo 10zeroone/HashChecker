@@ -1,7 +1,6 @@
 package cdd.kr.android.hashchecker;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -19,6 +18,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -29,26 +29,32 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 	private static final int REQUEST_PATH = 1;
 	String curFileName;
 	String curPath;
+	static String path;
 	String hashMD5;
 	String hashSHA;
-	String path;
-	
-	Button btnFileSearch1;
-	Button btnFileSearch2;
-	EditText etFilePath;
-	EditText etFilePath2;
-	Switch swCompare;
-	LinearLayout llComare;
-	
-
-	TextView tvCRC3Result;
-	TextView tvMD5Result;
-	TextView tvSHA1;
-	TextView tvResult;
-
 	
 	private String SHAHash;
 	public static int NO_OPTIONS=0;
+	
+	//파일 정보 표시를 위젯
+	Button btnFileSearch1;
+	Button btnFileSearch2;
+	EditText etFilePath1;
+	EditText etFilePath2;
+
+	TextView tvMD5Result1;
+	TextView tvSHA1Result1;	
+	TextView tvMD5Result2;
+	TextView tvSHA1Result2;
+	TextView tvCompResult;
+	
+	//파일 비교
+	Switch swCompare;
+	LinearLayout llComare;
+	LinearLayout llCompResult;
+	ImageView ivShare, ivResult;
+	
+	int buttonInfo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,20 +64,33 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 		getActionBar().setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP|ActionBar.DISPLAY_SHOW_HOME);
 		getActionBar().setDisplayShowTitleEnabled(true);
 
-		etFilePath = (EditText)findViewById(R.id.etFilePath);
-		tvMD5Result = (TextView)findViewById(R.id.tvMD5Result);
-		tvSHA1 = (TextView)findViewById(R.id.tvSHA1Result);
+		etFilePath1 = (EditText)findViewById(R.id.etFilePath1);
+		tvMD5Result1 = (TextView)findViewById(R.id.tvMD5Result1);
+		tvSHA1Result1 = (TextView)findViewById(R.id.tvSHA1Result1);
 		
 		
 		etFilePath2 =(EditText)findViewById(R.id.etFilePath2);
+		tvMD5Result2 = (TextView)findViewById(R.id.tvMD5Result2);
+		tvSHA1Result2 = (TextView)findViewById(R.id.tvSHA1Result2);
+		
 		llComare = (LinearLayout)findViewById(R.id.llComare);
-		tvResult =(TextView)findViewById(R.id.tvResult);
+		llCompResult = (LinearLayout)findViewById(R.id.llCompResult);
+		tvCompResult =(TextView)findViewById(R.id.tvCompResult);
+		ivResult = (ImageView)findViewById(R.id.ivResult);
+		ivShare = (ImageView)findViewById(R.id.ivShare);
+		ivShare.setOnClickListener(this);
 
 		//초기화
-		etFilePath.setText("");
+		etFilePath1.setText("");
+		tvMD5Result1.setText("");
+		tvSHA1Result1.setText("");
 		etFilePath2.setText("");
-		tvMD5Result.setText("");
-		tvSHA1.setText("");
+		tvMD5Result2.setText("");
+		tvSHA1Result2.setText("");
+		
+		llComare.setVisibility(View.GONE);
+		llCompResult.setVisibility(View.GONE);
+		ivShare.setVisibility(View.GONE);
 		
 		//이벤트 연결
 		btnFileSearch1 = (Button)findViewById(R.id.btnFileSearch1);
@@ -87,78 +106,135 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if(isChecked!=false){
 					llComare.setVisibility(View.VISIBLE);
+					
 				}else{
 					llComare.setVisibility(View.GONE);
+					llCompResult.setVisibility(View.GONE);
 				}
-				
 			}
 		});
-		
-		//파일 비교 수행
-		
 	}
+	
+	
+	
+	
 	
 	//인텐트 호출
 	public void getfile(View v){ 
     	Intent intent1 = new Intent(this, FileChooser.class);
         startActivityForResult(intent1,REQUEST_PATH);
+        //Toast.makeText(this, "Intent call", Toast.LENGTH_SHORT).show();
     }
-	
-/*	public void getCompare(View v){ 
-    	Intent intent2 = new Intent(this, FileChooser.class);
-        startActivityForResult(intent2,REQUEST_PATH);
-    }*/
 
 	 //인텐트 결과 Listening
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         // See which child activity is calling us back.
+    	//Toast.makeText(this, "onActivityResult() called", Toast.LENGTH_SHORT).show();
+    	
     	if (requestCode == REQUEST_PATH){
     		if (resultCode == RESULT_OK) { 
     			curFileName = data.getStringExtra("GetFileName"); 
     			curPath = data.getStringExtra("GetPath");
-            	
+    			
     			path = curPath + "/" + curFileName;
-    			
-    			Toast.makeText(this, path, Toast.LENGTH_SHORT);
-    			//etFilePath.setText(curPath + "/" + curFileName);
-    			//etFilePath.setText(curFileName);
-    			
-    			/*computeMD5Hash(etFilePath.toString());
-				computeSHAHash(etFilePath.toString());*/
+    			//파일 경로 표시
+    			if(buttonInfo==1){
+    				etFilePath1.setText(path);
+    				//파일 해시 추출
+    				try{
+    					File file = new File(path);
+    					tvMD5Result1.setText(MD5.calculateMD5(file));
+    				}catch(Exception e){
+    					e.printStackTrace();
+    				}	
+    			}else if(buttonInfo==2){
+    				etFilePath2.setText(path);
+    				//파일 해시 추출
+    				try{
+    					File file = new File(path);
+    					tvMD5Result2.setText(MD5.calculateMD5(file));
+    					
+    				}catch(Exception e){
+    					e.printStackTrace();
+    				}	
+    			}
+    			compareFile();
+    			Toast.makeText(this, "compareFile() called", Toast.LENGTH_SHORT).show();
     		}
     	 }
     }
 	
+    public void compareFile(){
+    	
+    	Toast.makeText(this, "compareFile() call", Toast.LENGTH_SHORT).show();
+    	Toast.makeText(this, "1 size: " + tvMD5Result1.length() + "\n\n2 size: " + tvMD5Result2.length(), Toast.LENGTH_LONG);
+    	
+    	if( tvMD5Result1.getText().toString().trim().length()>0 && tvMD5Result2.getText().toString().trim().length()>0 ){
+    		Toast.makeText(this, "두개의 파일 비교합니다.", Toast.LENGTH_LONG);
+    	}else{
+    		Toast.makeText(this, "두개의 파일을 선택하세요", Toast.LENGTH_LONG);
+    	}
+    	
+    	
+    	if( tvMD5Result1.getText().toString().trim().length()>0 && tvMD5Result2.getText().toString().trim().length()>0 ){
+    	//if(tvMD5Result1.getText().toString()!=null && tvMD5Result2.getText().toString()!=null ){
+			
+    		//파일 비교 수행
+    		if(tvMD5Result1.getText().toString().equals(tvMD5Result2.getText().toString())){
+    		//if( tvMD5Result1.equals(tvMD5Result2) ){
+    			tvCompResult.setText("정상 파일");
+    			ivResult.setImageResource(R.drawable.success_icon);
+    			ivShare.setImageResource(R.drawable.share_icon);
+    			ivShare.setVisibility(View.VISIBLE);
+    		}else{
+    			tvCompResult.setText("비정상 파일");
+    			ivResult.setImageResource(R.drawable.fail_icon);
+    			ivShare.setImageResource(R.drawable.delete_icon);
+    			ivShare.setVisibility(View.GONE);
+    		}
+    		Toast.makeText(this, 
+    				"tvMD5 1:" + tvMD5Result1.getText() +"\n\n" +
+    				"tvMD5 2:" + tvMD5Result2.getText() , Toast.LENGTH_LONG).show();
+    		
+			llCompResult.setVisibility(View.VISIBLE);
+			
+		}else
+		{
+			llCompResult.setVisibility(View.GONE);
+		}
+    	
+    }
+    
+    
     //이벤트 핸들러
 	@Override
 	public void onClick(View v) {
 		
 		
-		if(v.getId()==R.id.btnFileSearch1){
-			getfile(v);
-			
-			//etFilePath.setText(curPath + "/" + curFileName);
-			etFilePath.setText(path);
-			
-			/*File file = new File(path);
-			tvMD5Result.setText(MD5.calculateMD5(file));*/
-			
-			computeMD5Hash(etFilePath.toString());
-//			tvMD5Result.setText(hashMD5);
-			computeSHAHash(etFilePath.toString());
-			
-		}else if(v.getId()==R.id.btnFileSearch2){
-			getfile(v);
-			//getCompare(v);
-			
-			etFilePath2.setText(curPath + "/" + curFileName);
-			
-			computeSHAHash(etFilePath2.toString());
-			tvResult.setText(hashSHA);
-			tvSHA1.setText(hashSHA);
-		}
-	}
+		
+			if(v.getId()==R.id.btnFileSearch1){
+				buttonInfo = 1;
+				getfile(v);
 	
+			}else if(v.getId()==R.id.btnFileSearch2){
+				buttonInfo = 2;
+				getfile(v);
+				
+			}else if(v.getId()==R.id.ivShare){
+					// 화면 이동
+					// 인텐트 객체 생성
+					Intent intent = null;
+										//현재 액티비티, 이동할 액티비티
+					intent = new Intent(this, FileTransfer.class);
+					
+					//화면 이동시에 이동된 화면에서 호출할 데이터를 저장
+					//					Editable -> String
+					intent.putExtra("msg", etFilePath1.getText().toString());
+
+					//인텐트의 매개변수를 통해 액티비티 실행
+					startActivity(intent);
+				}
+	}
 	
 	
 // String Hash 처리 =================================================================
@@ -228,7 +304,3 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 		}
 	}
 }
-
-
-
-

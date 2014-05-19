@@ -13,7 +13,7 @@
 	<string name="btn_Wifi">WiFi로 전달</string>
 	<string name="btn_Bludtooth">블루투스로 전달</string>
 	<string name="btn_NFC">NFC로 전달</string>
-	<string name="btn_SDCard">SDCard로 전달</string>
+	<string name="btn_Email">Email로 전달</string>
 	<string name="btn_QR">QR코드로 전달</string>
 	
 	
