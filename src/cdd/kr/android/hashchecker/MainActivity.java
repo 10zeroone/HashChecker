@@ -62,6 +62,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 		setContentView(R.layout.activity_main);
 
 		getActionBar().setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP|ActionBar.DISPLAY_SHOW_HOME);
+		getActionBar().setIcon(R.drawable.hashchecker_icon);
 		getActionBar().setDisplayShowTitleEnabled(true);
 
 		etFilePath1 = (EditText)findViewById(R.id.etFilePath1);
@@ -97,6 +98,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 		btnFileSearch1.setOnClickListener(this);		
 		btnFileSearch2 = (Button)findViewById(R.id.btnFileSearch2);
 		btnFileSearch2.setOnClickListener(this);
+				
+				
 		
 		//파일 비교 활성화 (토글)
 		swCompare = (Switch)findViewById(R.id.swCompare);				
@@ -106,6 +109,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if(isChecked!=false){
 					llComare.setVisibility(View.VISIBLE);
+					Toast.makeText(MainActivity.this, "두개의 파일을 선택하세요", Toast.LENGTH_LONG).show();
 					
 				}else{
 					llComare.setVisibility(View.GONE);
@@ -115,22 +119,14 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 		});
 	}
 	
-	
-	
-	
-	
 	//인텐트 호출
 	public void getfile(View v){ 
     	Intent intent1 = new Intent(this, FileChooser.class);
         startActivityForResult(intent1,REQUEST_PATH);
-        //Toast.makeText(this, "Intent call", Toast.LENGTH_SHORT).show();
     }
 
 	 //인텐트 결과 Listening
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        // See which child activity is calling us back.
-    	//Toast.makeText(this, "onActivityResult() called", Toast.LENGTH_SHORT).show();
-    	
     	if (requestCode == REQUEST_PATH){
     		if (resultCode == RESULT_OK) { 
     			curFileName = data.getStringExtra("GetFileName"); 
@@ -159,26 +155,18 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
     				}	
     			}
     			compareFile();
-    			Toast.makeText(this, "compareFile() called", Toast.LENGTH_SHORT).show();
     		}
     	 }
     }
 	
     public void compareFile(){
     	
-    	Toast.makeText(this, "compareFile() call", Toast.LENGTH_SHORT).show();
-    	Toast.makeText(this, "1 size: " + tvMD5Result1.length() + "\n\n2 size: " + tvMD5Result2.length(), Toast.LENGTH_LONG);
     	
-    	if( tvMD5Result1.getText().toString().trim().length()>0 && tvMD5Result2.getText().toString().trim().length()>0 ){
-    		Toast.makeText(this, "두개의 파일 비교합니다.", Toast.LENGTH_LONG);
-    	}else{
-    		Toast.makeText(this, "두개의 파일을 선택하세요", Toast.LENGTH_LONG);
-    	}
     	
     	
     	if( tvMD5Result1.getText().toString().trim().length()>0 && tvMD5Result2.getText().toString().trim().length()>0 ){
     	//if(tvMD5Result1.getText().toString()!=null && tvMD5Result2.getText().toString()!=null ){
-			
+    		
     		//파일 비교 수행
     		if(tvMD5Result1.getText().toString().equals(tvMD5Result2.getText().toString())){
     		//if( tvMD5Result1.equals(tvMD5Result2) ){
@@ -192,26 +180,20 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
     			ivShare.setImageResource(R.drawable.delete_icon);
     			ivShare.setVisibility(View.GONE);
     		}
-    		Toast.makeText(this, 
-    				"tvMD5 1:" + tvMD5Result1.getText() +"\n\n" +
-    				"tvMD5 2:" + tvMD5Result2.getText() , Toast.LENGTH_LONG).show();
+//    		Toast.makeText(this, "tvMD5 1:" + tvMD5Result1.getText() +"\n\n" + "tvMD5 2:" + tvMD5Result2.getText() , Toast.LENGTH_LONG).show();
     		
 			llCompResult.setVisibility(View.VISIBLE);
 			
 		}else
 		{
 			llCompResult.setVisibility(View.GONE);
+			
 		}
-    	
     }
-    
     
     //이벤트 핸들러
 	@Override
 	public void onClick(View v) {
-		
-		
-		
 			if(v.getId()==R.id.btnFileSearch1){
 				buttonInfo = 1;
 				getfile(v);
@@ -250,7 +232,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 		return sb.toString();
 	}
 
-
 	public void computeSHAHash(String s)
 	{
 		MessageDigest mdSha1 = null;
@@ -276,10 +257,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener{
 		//tvSHA1.setText(SHAHash);
 	}
 
-
 	public void computeMD5Hash(String s)
 	{
-
 		try {
 			// Create MD5 Hash
 			MessageDigest digest = java.security.MessageDigest.getInstance("MD5");

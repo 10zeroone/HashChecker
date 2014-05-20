@@ -50,8 +50,8 @@ public class FileTransfer extends Activity implements OnClickListener{
 		if(v == btn_Email){
 			Intent email = new Intent(Intent.ACTION_SEND);
             email.putExtra(Intent.EXTRA_EMAIL, "");
-            email.putExtra(Intent.EXTRA_SUBJECT, "File transfer demo");
-            email.putExtra(Intent.EXTRA_TEXT, "File message");
+            email.putExtra(Intent.EXTRA_SUBJECT, "파일 전달");
+            email.putExtra(Intent.EXTRA_TEXT, "파일 첨부합니다.");
             if (URI != null) {
             	email.putExtra(Intent.EXTRA_STREAM, URI);
 			}
@@ -59,7 +59,7 @@ public class FileTransfer extends Activity implements OnClickListener{
             //prompts email client only
             email.setType("message/rfc822");
 
-            startActivity(Intent.createChooser(email, "Choose an Email client :"));
+            startActivity(Intent.createChooser(email, "메일을 보낼 프로그램 선택:"));
 		}
 		
 	}

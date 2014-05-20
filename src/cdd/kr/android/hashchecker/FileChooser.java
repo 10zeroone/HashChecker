@@ -86,7 +86,7 @@ public class FileChooser extends ListActivity {
 	}
     private void onFileClick(Item o)
     {
-    	Toast.makeText(this, "Folder Clicked: "+ currentDir, Toast.LENGTH_SHORT).show();
+    	//Toast.makeText(this, "Folder Clicked: "+ currentDir, Toast.LENGTH_SHORT).show();
     	Intent intent = new Intent();
         intent.putExtra("GetPath",currentDir.toString());
         intent.putExtra("GetFileName",o.getName());
